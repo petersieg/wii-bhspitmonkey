@@ -25,7 +25,7 @@ INCLUDES	:=
 # options for code generation
 #---------------------------------------------------------------------------------
 
-CFLAGS	= -g -O0 -mrvl -Wall $(MACHDEP) $(INCLUDE) -I$(DEVKITPPC)/local/include
+CFLAGS	= -g -O0 -mrvl -Wall $(MACHDEP) $(INCLUDE) -I$(DEVKITPPC)/local/include -I/opt/devkitpro/portlibs/wii/include -I/opt/devkitpro/portlibs/ppc/include -I/opt/devkitpro/portlibs/wii/include/wiisprite -I/opt/X11/include/freetype2
 CXXFLAGS	=	$(CFLAGS)
 
 LDFLAGS	=	-g $(MACHDEP) -mrvl -Wl,-Map,$(notdir $@).map
@@ -33,7 +33,7 @@ LDFLAGS	=	-g $(MACHDEP) -mrvl -Wl,-Map,$(notdir $@).map
 #-----------------------------------line *0x800656d4----------------------------------------------
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
-LIBS	:=	-lwiisprite -lpng -lz -lwiiuse -lbte -lfat -logc -lm 
+LIBS	:=	/opt/devkitpro/portlibs/wii/lib/libwiisprite.a /opt/devkitpro/portlibs/ppc/lib/libpng.a /opt/devkitpro/portlibs/ppc/lib/libz.a -lwiiuse -lbte -lfat -logc -lm 
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
@@ -103,6 +103,13 @@ $(BUILD):
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).dol
+
+#---------------------------------------------------------------------------------
+zip:
+	cp $(TARGET).dol zip/wiings/
+	cd zip/
+	zip -r wiings wiings/
+	cd ..
 
 #---------------------------------------------------------------------------------
 run:
